@@ -1,0 +1,37 @@
+# .github/workflows/test.yml
+name: Build and Test Docker Container
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # Or your preferred runner environment
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4 # Action to check out your repository code
+
+    - name: Set up Docker BuildX (Optional, but recommended for modern Docker builds)
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build test Docker image
+      # This command will build your Dockerfile.
+      # If any RUN instruction fails during the build, this step will fail.
+      run: docker build -f TestInfra/Dockerfile -t my-app-test-image .
+
+    - name: Run tests in Docker container
+      # This command will run the container.
+      # Because your ENTRYPOINT is `dotnet test`, if any tests fail,
+      # `dotnet test` will exit with non-zero, the container will exit non-zero,
+      # and this GitHub Actions step will then fail.
+      run: docker run --rm my-app-test-image
+
+    - name: Test successful message (This step will only run if tests pass)
+      # This step is here to demonstrate that steps after a failing step will not execute.
+      run: echo "All tests passed successfully!"
