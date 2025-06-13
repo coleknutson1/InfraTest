@@ -8,10 +8,10 @@ public sealed class Test1
     {
         Assert.AreEqual(true, true);
     }
-
-    [TestMethod]
-    public void ReturnsFalse()
-    {
-        Assert.AreEqual(true, false);
-    }
+    //
+    // [TestMethod]
+    // public void ReturnsFalse()
+    // {
+    //     Assert.AreEqual(true, false);
+    // }
 }

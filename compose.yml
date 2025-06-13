@@ -1,3 +1,5 @@
 services: 
-  nginx: 
-    image: nginx:latest
+  test-infra: 
+    build:
+      dockerfile: TestInfra/Dockerfile
+      context: .
